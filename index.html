@@ -141,8 +141,10 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 <p class="lead">數字取概數，出處列在「資料來源」。</p>
 <div class="stats" id="stats"></div>
 </div></div>
-<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js"></script>
+<script>function fyFail(msg,soft){if(window.__fyMsg&&soft)return;window.__fyMsg=1;var l=document.getElementById('loading');if(l){l.innerHTML=msg;l.style.cssText+=';padding:0 28px;text-align:center;line-height:1.7;font-size:14px;color:var(--ink)'}}
+window.addEventListener('error',function(e){if(!window.__fyOK)fyFail('地圖載入時發生錯誤：'+(e.message||'未知錯誤')+'<br>請重新整理，或換一個瀏覽器試試。',1)});</script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js" onerror="fyFail('地圖元件下載失敗，可能是網路（例如公司網路）擋住了 cdn.jsdelivr.net。<br>可以換成手機網路或其他網路再試一次。')"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js" onerror="fyFail('地圖元件下載失敗，可能是網路擋住了 cdn.jsdelivr.net。')"></script>
 <script>
 const SRC={
  gvm:[2,"遠見《城市學》地名由來專題","https://city.gvm.com.tw/article/90012"],
@@ -473,7 +475,8 @@ B.mall=(k)=>{k.box(2,1.2,1.3,0xDCE6EA);k.box(2.02,.3,1.32,0x3B8A5A,0,1.2,0);k.bo
 const RM=matchMedia('(prefers-reduced-motion:reduce)').matches;
 let ACTIVE=performance.now();function wake(){ACTIVE=performance.now()}
 const board=document.getElementById('board'),canvas=document.getElementById('c');
-const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:'high-performance'});
+if(!window.THREE){throw new Error('three.js 沒有載入')}
+let renderer;try{renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:'high-performance'})}catch(err){window.__fyOK=true;fyFail('這個瀏覽器目前無法顯示 3D 地圖，通常是關閉了「硬體加速」。<br>Chrome 可以到「設定 → 系統 → 使用圖形加速功能」開啟後重新啟動瀏覽器。');throw err}
 renderer.setPixelRatio(Math.min(devicePixelRatio,1.75));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputEncoding=THREE.sRGBEncoding;
 const scene=new THREE.Scene();
 const camera=new THREE.PerspectiveCamera(36,1,0.1,400);
@@ -690,13 +693,13 @@ addEventListener('resize',()=>{if(tour.classList.contains('open'))tourShow()});
 document.getElementById('help').onclick=tourStart;
 function maybeTour(){let seen=false;try{seen=!!localStorage.getItem('fy-seen-tour')}catch(e){}if(!seen)setTimeout(tourStart,350)}
 /* resize & loop */
-function resize(){const w=board.clientWidth,h=board.clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();LABELS.forEach(L=>{L.w=L.el.offsetWidth;L.h=L.el.offsetHeight})}
+function resize(){wake();const w=board.clientWidth,h=board.clientHeight;if(!w||!h)return;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix();if(window.__fyOK){renderer.render(scene,camera)}LABELS.forEach(L=>{L.w=L.el.offsetWidth;L.h=L.el.offsetHeight})}
 new ResizeObserver(resize).observe(board);
 camera.position.set(10,30,34);controls.target.set(0,.6,0);
 TILES.forEach(T=>{T.goal=tileH(T,0);setTile(T,T.goal)});
-resize();setEra(0);document.getElementById('loading').remove();
+resize();setEra(0);window.__fyOK=true;document.getElementById('loading').remove();
 try{if(!localStorage.getItem('fy-seen-where')){document.getElementById('wherep').classList.add('open');localStorage.setItem('fy-seen-where','1')}}catch(e){document.getElementById('wherep').classList.add('open')}
-const clock=new THREE.Clock();['pointerdown','wheel','keydown','touchstart'].forEach(ev=>addEventListener(ev,wake,{passive:true}));controls.addEventListener('change',wake);
+const clock=new THREE.Clock();document.addEventListener('visibilitychange',wake);addEventListener('focus',wake);['pointerdown','wheel','keydown','touchstart'].forEach(ev=>addEventListener(ev,wake,{passive:true}));controls.addEventListener('change',wake);
 function loop(){const dt=Math.min(clock.getDelta(),.05),t=clock.elapsedTime;
  TILES.forEach(T=>{if(Math.abs(T.cur-T.goal)>.001)setTile(T,RM?T.goal:T.cur+(T.goal-T.cur)*Math.min(1,dt*2.5))});
  PLACED.forEach(p=>{p.g.position.y=p.tile.cur+.1});FOODOBJ.forEach(o=>{o.g.position.y=o.tile.cur+.1});
