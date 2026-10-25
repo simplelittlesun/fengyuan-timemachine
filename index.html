@@ -21,11 +21,11 @@ header{padding:14px 16px 0 20px;display:flex;align-items:flex-start;justify-cont
 h1{white-space:nowrap;font-family:"Huninn","Noto Sans TC",sans-serif;font-weight:400;font-size:clamp(22px,6.6vw,29px);letter-spacing:.04em;margin:0;line-height:1.1}
 .sub{margin:4px 0 0;font-size:13px;color:var(--ink-2)}
 .hb{display:flex;gap:6px;flex:none}.btn{flex:none;border:1px solid var(--line);background:var(--pill);color:var(--ink);border-radius:999px;padding:7px 11px;font-size:12.5px;font-family:inherit;cursor:pointer}
-.strip{margin:10px 12px 0;display:flex;align-items:center;gap:10px;border:none;background:var(--accent);color:#24343A;border-radius:14px;padding:9px 14px;font-family:inherit;cursor:pointer;text-align:left}
+.strip{margin:8px 12px 0;display:flex;align-items:center;gap:10px;border:none;background:var(--accent);color:#24343A;border-radius:14px;padding:9px 14px;font-family:inherit;cursor:pointer;text-align:left}
 .strip .sl{font-family:"Huninn","Noto Sans TC",sans-serif;font-size:13px;flex:none;background:rgba(255,253,246,.55);border-radius:999px;padding:3px 9px}
 .strip .sv{flex:1;min-width:0;font-size:14px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:opacity .35s}
 .strip .sm{flex:none;font-size:12px}
-.mode{display:flex;margin:8px 12px 0;background:var(--paper-2);border:1px solid var(--line);border-radius:999px;padding:3px}.mode button{flex:1;border:none;background:transparent;color:var(--ink-2);border-radius:999px;padding:7px 0;font-family:"Huninn","Noto Sans TC",sans-serif;font-size:15px;cursor:pointer}.mode button[aria-selected="true"]{background:var(--pill-on);color:var(--pill-on-ink)}
+.mode{display:flex;margin:6px 12px 0;background:var(--paper-2);border:1px solid var(--line);border-radius:999px;padding:3px}.mode button{flex:1;border:none;background:transparent;color:var(--ink-2);border-radius:999px;padding:5px 0;font-family:"Huninn","Noto Sans TC",sans-serif;font-size:15px;cursor:pointer}.mode button[aria-selected="true"]{background:var(--pill-on);color:var(--pill-on-ink)}
 .t3{background:#E4E0F2;color:#4A3F7A}.story h3 small.loc{background:#FFF4DE;color:#7A4E0E;border-radius:6px;padding:1px 6px}
 .board{position:relative;flex:1;min-height:0;overflow:hidden}
 #c{position:absolute;inset:0;width:100%;height:100%;touch-action:none;display:block;cursor:grab}
@@ -41,10 +41,17 @@ h1{white-space:nowrap;font-family:"Huninn","Noto Sans TC",sans-serif;font-weight
 .pop .tag{font-size:11px;color:var(--ink-2)}
 .pop h4{margin:2px 0 4px;font-size:15px}
 .pop p{margin:0;font-size:13px;line-height:1.6}
-.sheet{margin:6px 10px 0;background:var(--paper);border-radius:20px;padding:12px 0 10px;border:1px solid var(--line)}
-.eh{padding:0 16px}
+.sheet{margin:6px 10px 0;background:var(--paper);border-radius:20px 20px 16px 16px;padding:2px 0 10px;border:1px solid var(--line);position:relative}
+.grab{display:block;width:100%;border:none;background:transparent;padding:6px 0 4px;cursor:pointer}.grab span{display:block;width:40px;height:4px;border-radius:2px;background:var(--line);margin:0 auto}
+.sheet.collapsed{padding-bottom:8px}
+.sheet.collapsed .story{min-height:0;grid-template-columns:44px 1fr;padding:8px 10px;gap:0 10px;align-items:center}
+.sheet.collapsed .story .ic{width:44px;height:44px;grid-row:span 2}
+.sheet.collapsed .story h3{margin:0;font-size:14.5px}
+.sheet.collapsed .story p{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden;font-size:13px;color:var(--ink-2)}
+.sheet.collapsed .story .emo{font-size:24px}
+.eh{padding:0 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:8px}.ehl{min-width:0;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
 .eh .yr{font-size:12px;color:var(--ink-2);margin:0}
-.eh h2{font-family:"Huninn","Noto Sans TC",sans-serif;font-weight:400;font-size:19px;margin:1px 0 8px}
+.eh h2{font-family:"Huninn","Noto Sans TC",sans-serif;font-weight:400;font-size:17px;margin:0;line-height:1.25}
 .stories{display:flex;align-items:flex-start;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;padding:0 16px 2px;scroll-padding:0 16px;scrollbar-width:none;overscroll-behavior-x:contain}
 .stories::-webkit-scrollbar{display:none}
 .story{cursor:pointer;flex:0 0 100%;min-height:96px;scroll-snap-align:start;background:var(--paper-2);border-radius:14px;padding:10px 12px 12px 8px;display:grid;grid-template-columns:62px 1fr;gap:2px 8px;align-content:start;border:1.5px solid transparent;transition:border-color .3s}
@@ -55,10 +62,11 @@ h1{white-space:nowrap;font-family:"Huninn","Noto Sans TC",sans-serif;font-weight
 .story h3{margin:4px 0 0;font-size:15px;font-weight:700;line-height:1.35}
 .story h3 small{font-weight:400;font-size:11px;color:var(--ink-2);margin-left:6px}
 .story p{margin:0;font-size:13.5px;line-height:1.65}
-.dots{display:flex;align-items:center;justify-content:space-between;margin:8px 16px 0}.dots button{border:1px solid var(--line);background:var(--pill);color:var(--ink);border-radius:999px;width:34px;height:30px;font-size:15px;cursor:pointer;line-height:1}.dots button:disabled{opacity:.3;cursor:default}.dots span{font-size:12px;color:var(--ink-2)}
+.dots{display:flex;align-items:center;gap:6px;flex:none;margin:0}.dots button{border:1px solid var(--line);background:var(--pill);color:var(--ink);border-radius:999px;width:32px;height:28px;font-size:15px;cursor:pointer;line-height:1}.dots button:disabled{opacity:.3;cursor:default}.dots span{font-size:12px;color:var(--ink-2)}
 .dots i{width:5px;height:5px;border-radius:50%;background:var(--line)}
 .dots i.on{background:var(--ink-2)}
 nav{display:flex;gap:4px;padding:8px 10px 12px}
+:root.nl nav{padding-bottom:66px}
 nav button{flex:1;min-width:0;border:1px solid var(--line);background:var(--pill);color:var(--ink);border-radius:999px;padding:6px 0 5px;font-family:"Huninn","Noto Sans TC",sans-serif;font-size:14.5px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:1px;line-height:1.1}
 nav button small{font-family:"Noto Sans TC",sans-serif;font-size:9px;color:var(--ink-2)}
 nav button[aria-pressed="true"]{background:var(--pill-on);color:var(--pill-on-ink);border-color:var(--pill-on)}
@@ -102,7 +110,7 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 </head>
 <body>
 <div class="app">
-<header><div><h1>豐原時光機</h1><p class="sub">七個年代的豐原</p></div><div class="hb"><button class="btn" id="help">導覽</button><button class="btn" id="openWhere">豐原在哪</button><button class="btn" id="openSrc">資料來源</button></div></header>
+<header><div><h1>豐原時光機</h1></div><div class="hb"><button class="btn" id="help">導覽</button><button class="btn" id="openWhere">豐原在哪</button><button class="btn" id="openSrc">資料來源</button></div></header>
 <button class="strip" id="strip" aria-label="打開豐原小檔案"><span class="sl">豐原小檔案</span><span class="sv" id="stripv"></span><span class="sm">看全部 ›</span></button>
 <div class="mode" role="tablist" aria-label="切換內容"><button id="mH" role="tab" aria-selected="true">歷史</button><button id="mF" role="tab" aria-selected="false">美食</button></div>
 <div class="board" id="board">
@@ -112,10 +120,10 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 <div class="cam"><button id="camBtn">看全區</button></div>
 <div class="pop" id="pop" role="dialog" aria-live="polite"><span class="tag" id="popTag"></span><h4 id="popH"></h4><p id="popD"></p></div>
 </div>
-<section class="sheet" aria-live="polite">
-<div class="eh"><p class="yr" id="yr"></p><h2 id="tt"></h2></div>
+<section class="sheet collapsed" id="sheet" aria-live="polite">
+<button class="grab" id="grab" aria-label="展開完整說明" aria-expanded="false"><span></span></button>
+<div class="eh"><div class="ehl"><p class="yr" id="yr"></p><h2 id="tt"></h2></div><div class="dots" id="dots"></div></div>
 <div class="stories" id="stories"></div>
-<div class="dots" id="dots"></div>
 </section>
 <nav id="eras" aria-label="年代"></nav>
 </div>
@@ -141,7 +149,8 @@ button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 <p class="lead">數字取概數，出處列在「資料來源」。</p>
 <div class="stats" id="stats"></div>
 </div></div>
-<script>function fyFail(msg,soft){if(window.__fyMsg&&soft)return;window.__fyMsg=1;var l=document.getElementById('loading');if(l){l.innerHTML=msg;l.style.cssText+=';padding:0 28px;text-align:center;line-height:1.7;font-size:14px;color:var(--ink)'}}
+<script>if(/\.netlify\.app$/.test(location.hostname))document.documentElement.classList.add('nl');
+function fyFail(msg,soft){if(window.__fyMsg&&soft)return;window.__fyMsg=1;var l=document.getElementById('loading');if(l){l.innerHTML=msg;l.style.cssText+=';padding:0 28px;text-align:center;line-height:1.7;font-size:14px;color:var(--ink)'}}
 window.addEventListener('error',function(e){if(!window.__fyOK)fyFail('地圖載入時發生錯誤：'+(e.message||'未知錯誤')+'<br>請重新整理，或換一個瀏覽器試試。',1)});</script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js" onerror="fyFail('地圖元件下載失敗，可能是網路（例如公司網路）擋住了 cdn.jsdelivr.net。<br>可以換成手機網路或其他網路再試一次。')"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js" onerror="fyFail('地圖元件下載失敗，可能是網路擋住了 cdn.jsdelivr.net。')"></script>
@@ -582,7 +591,7 @@ function frameBox(pts,minR,pct){let cx=0,cz=0;pts.forEach(p=>{cx+=p[0];cz+=p[1]}
  const a=board.clientWidth/Math.max(1,board.clientHeight);const dist=Math.min(70,Math.max(16,(r*2.6+8)/Math.min(1,a*1.25)));return{t:new THREE.Vector3(cx,.6,cz),d:dist}}
 function camTo(t,d){const dir=camera.position.clone().sub(controls.target).normalize();const endP=t.clone().add(dir.multiplyScalar(d));
  if(RM){controls.target.copy(t);camera.position.copy(endP);return}camTw={t0:controls.target.clone(),p0:camera.position.clone(),t1:t,p1:endP,s:performance.now()}}
-function eraFrame(e){if(e===0)return frameBox(TILES.map(T=>[T.x,T.z]),10);const pts=PLACED.filter(p=>p.s.cur&&p.s.inEra).map(p=>[p.g.position.x,p.g.position.z]);return pts.length?frameBox(pts,5,.88):frameBox(TILES.map(T=>[T.x,T.z]),10)}
+function eraFrame(e){if(e===0)return frameBox(TILES.map(T=>[T.x,T.z]),10);const pts=PLACED.filter(p=>p.s.cur&&p.s.inEra).map(p=>[p.g.position.x,p.g.position.z]);return pts.length?frameBox(pts,5,1):frameBox(TILES.map(T=>[T.x,T.z]),10)}
 let FOCUS=true;const camBtn=document.getElementById('camBtn');
 function camFocus(){FOCUS=true;camBtn.textContent='看全區';const f=eraFrame(ERA);camTo(f.t,f.d)}
 camBtn.onclick=()=>{hidePop();if(FOCUS){FOCUS=false;camBtn.textContent='回到焦點';const f=frameBox(TILES.map(T=>[T.x,T.z]),10);camTo(f.t,f.d)}else camFocus()};
@@ -596,7 +605,9 @@ function iconFor(type){if(iconCache[type])return iconCache[type];
  const g=new THREE.Group();g.scale.setScalar(1.05);iconScene.add(g);if(type==='person'){const k=Kit(g,false);k.cyl(.45,.55,.9,0xE3A33B,0,0,0,16);k.sph(.38,0xF2D0A9,0,1.25,0)}else if(B[type])B[type](Kit(g,false));
  iconR.render(iconScene,iconCam);iconCache[type]=iconR.domElement.toDataURL('image/png');return iconCache[type]}
 function storyType(id,e){if(findStory(id)?.s.p)return'person';const l=LM.find(l=>l.e<=e&&stateOf(l,e).st===id);return l?stateOf(l,e).type:'mound'}
-const storiesEl=document.getElementById('stories'),dotsEl=document.getElementById('dots');
+const storiesEl=document.getElementById('stories'),dotsEl=document.getElementById('dots'),sheetEl=document.getElementById('sheet'),grab=document.getElementById('grab');
+function setSheet(open){sheetEl.classList.toggle('collapsed',!open);grab.setAttribute('aria-expanded',open);grab.setAttribute('aria-label',open?'收合說明':'展開完整說明');requestAnimationFrame(()=>{updPager();resize()})}
+grab.onclick=()=>setSheet(sheetEl.classList.contains('collapsed'));
 let CUR=0,SILENT=false,LASTID=null,settleT=null;
 function cardItems(){if(FOODON){const A=AREAS[AREA];return{y:'美食',t:A.n,items:[{id:'area',h:A.n,d:A.d,ic:`<div class="ic emo" aria-hidden="true">📍</div>`}].concat(FOOD.filter(f=>f.a===AREA).map(f=>({id:f.id,h:f.n+(f.loc?'<small class="loc">在地推薦</small>':''),d:f.d,ic:`<div class="ic emo" aria-hidden="true">${f.i}</div>`})))}}
  const E=ERAS[ERA];return{y:E.y,t:E.t,items:E.st.map(s=>({id:s.id,h:s.h+(s.p?'<small>人物</small>':''),d:s.d,p:s.p,ic:`<img class="ic" alt="" data-type="${storyType(s.id,ERA)}" src="${iconCache[storyType(s.id,ERA)]||BLANK}">`}))}}
@@ -624,7 +635,7 @@ function locate(id,fromCard){if(FOODON){if(id==='area'){clearSel();hidePop();if(
 function tapLandmark(P,sx,sy){const s=P.s,l=P.l;if(s.inEra&&!FOODON){select(P,false);focusStory(s.st);return}
  const id=s.st||l.st;const f=findStory(id);select(P,false);if(f){const E=ERAS[f.era];showPop(FOODON?`${E.k}・${E.y}`:`「${E.k}」年代的地標・${E.y}`,f.s.h,f.s.d,sx,sy)}}
 function tapFood(o){selectFood(o,false);focusStory(o.f.id)}
-storiesEl.addEventListener('click',e=>{const c=e.target.closest('.story');if(!c)return;const id=c.id.slice(2);LASTID=id;markCard(id);locate(id,true)});
+storiesEl.addEventListener('click',e=>{const c=e.target.closest('.story');if(!c)return;const id=c.id.slice(2);LASTID=id;markCard(id);if(sheetEl.classList.contains('collapsed'))setSheet(true);locate(id,true)});
 /* popover */
 const pop=document.getElementById('pop');function hidePop(){pop.classList.remove('open')}
 function showPop(tag,h,d,sx,sy){document.getElementById('popTag').textContent=tag;document.getElementById('popH').textContent=h;document.getElementById('popD').textContent=d;pop.classList.add('open');
@@ -673,7 +684,7 @@ if(!RM)setInterval(()=>{si=(si+1)%STATS.length;sv.style.opacity=0;setTimeout(()=
 const TOUR=[
  {sel:'#board',t:'這是豐原的 3D 地圖。單指拖曳可以旋轉，雙指可以縮放，點建築或名牌就能看它的故事。'},
  {sel:'#eras',t:'下面的按鈕切換年代，從清代以前到現在，看豐原怎麼一塊一塊長出來。'},
- {sel:'.sheet',t:'每個年代有好幾則故事，左右滑或按箭頭翻頁，地圖會跟著飛到那個地點。'},
+ {sel:'.sheet',t:'每個年代有好幾則故事，左右滑或按箭頭翻頁，地圖會跟著飛到那個地點。點一下卡片可以展開全文，按上方的把手可以收起來。'},
  {sel:'.mode',t:'切到「美食」，可以逛廟東、中正路餅街這些在地人的口袋名單。'},
  {sel:'.hb',t:'右上角可以查豐原在台灣的位置、資料來源，按「導覽」能再看一次這段說明。'}
 ];
