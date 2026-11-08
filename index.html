@@ -31,7 +31,7 @@ h1{white-space:nowrap;font-family:"Huninn","Noto Sans TC",sans-serif;font-weight
 #c{position:absolute;inset:0;width:100%;height:100%;touch-action:none;display:block;cursor:grab}
 .lbl{position:absolute;left:0;top:0;background:var(--paper);color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:2px 9px;font-family:"Huninn","Noto Sans TC",sans-serif;font-size:12.5px;white-space:nowrap;pointer-events:auto;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.08);will-change:transform}
 .lbl.food{background:#FFF4DE;color:#5A3A10;border-color:rgba(227,163,59,.5)}
-.lbl.sel{background:var(--accent);color:#24343A;border-color:var(--accent)}.lbl.cap{pointer-events:none!important;font-size:13px;background:var(--paper);color:var(--ink)}
+.lbl.sel{background:var(--accent);color:#24343A;border-color:var(--accent)}.lbl.cap{pointer-events:none!important;font-size:13px;background:var(--paper);color:var(--ink)}.lbl.cap.riv{font-size:12px;background:#E3F1F7;color:#2D6178;border-color:rgba(91,168,201,.45)}
 .cam{position:absolute;right:10px;bottom:10px;display:flex;gap:6px}
 .cam button,.foodbtn{border:1px solid var(--line);background:var(--pill);color:var(--ink);border-radius:999px;padding:6px 12px;font-size:12.5px;font-family:inherit;cursor:pointer}
 .foodbtn{position:absolute;left:10px;bottom:10px}
@@ -40,7 +40,7 @@ h1{white-space:nowrap;font-family:"Huninn","Noto Sans TC",sans-serif;font-weight
 .pop.open{display:block}
 .pop .tag{font-size:11px;color:var(--ink-2)}
 .pop h4{margin:2px 0 4px;font-size:15px}
-.pop p{margin:0;font-size:13px;line-height:1.6}
+.pop p{margin:0;font-size:13px;line-height:1.6;max-height:9.6em;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin}
 .sheet{margin:6px 10px 0;background:var(--paper);border-radius:20px 20px 16px 16px;padding:2px 0 10px;border:1px solid var(--line);position:relative}
 .grab{display:block;width:100%;border:none;background:transparent;padding:6px 0 4px;cursor:pointer}.grab span{display:block;width:40px;height:4px;border-radius:2px;background:var(--line);margin:0 auto}
 .sheet.collapsed{padding-bottom:8px}
@@ -62,6 +62,8 @@ h1{white-space:nowrap;font-family:"Huninn","Noto Sans TC",sans-serif;font-weight
 .story h3{margin:4px 0 0;font-size:15px;font-weight:700;line-height:1.35}
 .story h3 small{font-weight:400;font-size:11px;color:var(--ink-2);margin-left:6px}
 .story p{margin:0;font-size:13.5px;line-height:1.65}
+.sheet:not(.collapsed) .story p{max-height:8.4em;overflow-y:auto;overscroll-behavior:contain;padding-right:4px;scrollbar-width:thin}
+.sheet:not(.collapsed) .story p.more{-webkit-mask-image:linear-gradient(#000 72%,transparent);mask-image:linear-gradient(#000 72%,transparent)}
 .dots{display:flex;align-items:center;gap:6px;flex:none;margin:0}.dots button{border:1px solid var(--line);background:var(--pill);color:var(--ink);border-radius:999px;width:32px;height:28px;font-size:15px;cursor:pointer;line-height:1}.dots button:disabled{opacity:.3;cursor:default}.dots span{font-size:12px;color:var(--ink-2)}
 .dots i{width:5px;height:5px;border-radius:50%;background:var(--line)}
 .dots i.on{background:var(--ink-2)}
@@ -229,16 +231,40 @@ const SRC={
  lu:[1,"臺中市文化資產處 呂樵湖故居歷史建築登錄公告","https://www.tchac.taichung.gov.tw/uploads/tchac/files/202205/dfb9c4c9-bb4c-4994-851a-9676f0ab1b27.pdf"],
  wh:[1,"臺中市文化資產處 豐原車站鐵道倉庫歷史建築登錄公告","https://www.tchac.taichung.gov.tw/downloadfile?fid=7275"],
  shepi:[2,"自由時報 豐原社皮里新百貨開幕報導（2026）","https://news.ltn.com.tw/news/Taichung/breakingnews/5492838"],
+ yuanmei1:[2,"三立新聞 東泉與源美的地區偏好報導","https://www.setn.com/News.aspx?NewsID=1078927"],
+ yuanmei2:[2,"風傳媒〈台中辣椒醬別只知道東泉〉","https://www.storm.mg/lifestyle/11042482"],
+ yuanmei3:[2,"晴天散步〈源美辣椒醬哪裡買〉","https://feliz.tw/chilisauce/"],
+ weirong:[2,"中時新聞網 味榮味噌觀光工廠報導（2022）","https://www.chinatimes.com/realtimenews/20220708002164-260405"],
+ weirong2:[1,"臺中觀光旅遊網 行程資料（台灣味噌釀造文化館）","https://travel.taichung.gov.tw/zh-tw/trip/downloadtourpdf?id=1225"],
+ fengzhong:[2,"Bella 儂儂 豐中炒麵蘿蔔糕介紹","https://www.bella.tw/articles/travel%26foodies/50658/march-week2-fengyuan-friednoodles"],
+ fengzhong2:[2,"食尚玩家 豐中炒麵蘿蔔糕報導","https://supertaste.tvbs.com.tw/food/322048"],
+ ruan:[2,"后豐百店 no.7 阮豆漿大王（2022）","https://5423chiu.tw/2187-2/"],
+ ruisui1:[2,"聯合報 瑞穗炸雞報導","https://udn.com/news/story/7207/5740570"],
+ ruisui2:[2,"橘子狗愛吃糖 瑞穗炸雞食記","https://orange-dog.com/fongyuan-fc3/"],
+ huludun:[2,"若曦的味旅人生 葫蘆墩夜市攻略","https://jamesdiscover.tw/blog/5405"],
+ wangrb:[2,"后豐百店 NO.3 王家潤餅（2022）","https://5423chiu.tw/%E7%8E%8B%E5%AE%B6%E6%BD%A4%E9%A4%85-%E5%8B%99%E5%AF%A6%E8%B1%90%E5%8E%9F%E4%BA%BA%E7%9A%84%E5%AF%AB%E7%85%A7/"],
+ fuchun:[2,"后豐百店 NO.4 富春小籠包餐車","https://5423chiu.tw/%E5%90%8E%E8%B1%90%E7%99%BE%E5%BA%97-%E5%AF%8C%E6%98%A5%E5%B0%8F%E7%B1%A0%E5%8C%85%E9%A4%90%E8%BB%8A/"],
+ dajia:[1,"經濟部水利署第三河川分署 大甲溪水系","https://www.wra.gov.tw/wra03/cp.aspx?n=10468"],
+ ruanpi:[2,"自由時報 軟埤仔溪整治報導（2018）","https://news.ltn.com.tw/news/life/breakingnews/2418206"],
+ ruanpi2:[2,"自由時報 軟埤仔溪水環境改善工程完工報導（2024）","https://news.ltn.com.tw/news/life/breakingnews/4876657"],
+ hanxi:[1,"經濟部水利署 旱溪排水資料","https://www-ws.wra.gov.tw/001/Upload/oldFileWrap/assets/i/file/13-旱溪排水(含15-綠川排水、14-柳川排水).pdf"],
+ police2:[2,"日文版中央社 頂街派出所變鳳梨酥店（2026）","https://japan.focustaiwan.tw/travel/202602185001"],
+ police3:[2,"工商時報 旺來八頂街門市報導（2026）","https://www.ctee.com.tw/news/20260302700724-431207"],
+ ricegift:[2,"微笑台灣〈瑞穗國小 重現天皇級御飯−葫蘆墩米〉","https://smiletaiwan.cw.com.tw/article/1255"],
+ ipcf:[1,"原住民族文化事業基金會《Indigenous Sight》巴宰族起源","https://insight.ipcf.org.tw/en-US/article/704"],
+ ipcf2:[1,"原住民族文化事業基金會《Indigenous Sight》埔里愛蘭巴宰族語言復振","https://insight.ipcf.org.tw/en-US/article/703"],
+ note:[2,"日本部落客 note〈水上の神様～葫蘆墩をおよぐ〉","https://note.com/honno_hitotoki/n/nf5ab8c836249"],
  local:[3,"在地居民口述（本網頁作者提供）",""]
 };
 const ERAS=[
  {k:"名字",y:"清代以前",ys:"清以前",t:"原住民的土地",st:[
-  {id:"haluton",h:"Haluton",d:"「葫蘆墩」來自族語 Haluton 的音譯。這裡原是巴宰族岸裡社與烏牛欄社的屬地。",s:["gvm","popu"]},
-  {id:"dunjiao",h:"墩腳",d:"另一種地名說法：大甲溪漂砂堆出三座土墩，最大的形似葫蘆。僅存的墩腳在大街尾福德祠後方，1958 年曾安置八二三砲戰撤退來台的居民，2014 年改建為墩腳綠園。",s:["storm2"]}]},
+  {id:"haluton",h:"Haluton",d:"「葫蘆墩」來自巴宰族語 Haluton 的音譯，有一說是「松柏林」的意思。這裡原是巴宰族岸裡社與烏牛欄社的屬地。葫蘆墩這個名字一直用到 1920 年，台灣總督府取日本神話中「豐葦原瑞穗國」的說法改名「豐原」，所以「豐原」的本意並非「豐收的平原」。",s:["gvm","popu"]},
+  {id:"flood",h:"洪水之後",d:"巴宰族的起源傳說：族人是從天而降的 Maqiyowas 的後代。一場大洪水淹沒家園，只有姊弟 Savung Kaisi 與 Vana Kaisi 逃到山上倖存；水退後，兩人遷到葫蘆墩定居，後代分成巴宰族最早的四個社群。清代以水換地之後，巴宰族逐漸失去土地，族人陸續遷往埔里、鯉魚潭等地，埔里愛蘭至今仍有族人推動語言復振。",s:["ipcf","ipcf2"]},
+  {id:"dunjiao",h:"墩腳",d:"另一種地名說法：大甲溪漂砂堆出三座土墩，最大的形似葫蘆。僅存的墩腳在中正路 277 巷的大街尾福德祠後方。1958 年八二三砲戰後，政府把約四十戶從金門撤退來台的居民安置在這裡；2014 年居民遷離後改建為墩腳綠園，園內立著「葫蘆墩遺址」鐵雕立牌。",s:["storm2"]}]},
  {k:"圳",y:"1723–1895",ys:"1723",t:"中部平原的開墾起點",st:[
-  {id:"swap",h:"割地換水",d:"1723 年張達京與岸裡社約定：漢人出資築圳，原住民提供土地，水量依漢八番二分配。",s:["hakka"]},
-  {id:"rice",h:"葫蘆墩米",d:"1733 年起引大甲溪水，1747 年完成上埤，灌溉今豐原、神岡、潭子等地，這裡的米後來以「葫蘆墩米」聞名。",s:["hakka","rdec"]},
-  {id:"wanxuan",h:"萬選居",d:"張家後代興建的三合院，建於 1873 年，2003 年登錄為歷史建築。",s:["storm"]},
+  {id:"swap",h:"割地換水",d:"張達京是廣東大埔人，擔任岸裡社通事，和族人交好，娶了平埔族妻女，被稱為「番仔駙馬」。1723 年他和岸裡社土官之子潘敦仔約定「割地換水」：漢人出資在朴仔籬口築埤、引大甲溪水，原住民提供土地，水量依「漢八番二」分配。這條圳俗稱「番仔圳」，灌溉今神岡、大雅一帶約一千多甲田地。豐圳公園裡立有兩人的雕像。",s:["hakka","storm2"]},
+  {id:"rice",h:"葫蘆墩米",d:"1733 年起引大甲溪水，1747 年完成上埤，灌溉今豐原、神岡、潭子等地，這裡的米後來以「葫蘆墩米」聞名。日治時期，葫蘆墩米還被選為進獻日本皇室的「獻穀米」；2016 年瑞穗國小以這段歷史設計教案，帶學生重新認識家鄉米。",s:["hakka","rdec","ricegift"]},
+  {id:"wanxuan",h:"萬選居",d:"張家第十五世張萬春在戴潮春事件平定後不久興建的三合院，建於 1873 年，占地約 2,400 坪；開台祖張達京是張家第十一世。2003 年登錄為歷史建築，牆上還看得到日治時期美軍轟炸留下的彈痕。",s:["storm"]},
   {id:"clans",h:"客家三大家族",d:"大埔張家、饒平林家、詔安呂家先後走進豐原與神岡開墾，張家後代興建的萬選居就是其中的代表建築。",s:["hakka2"]},
   {id:"streets",h:"頂街與下街",d:"市街從墩腳開始發展：墩腳一帶是「下街」，往東到慈濟宮一帶是「頂街」，大約以今天的富春街為界。18 世紀中葉，台中第一座城隍廟就建在墩腳附近，當時繁華到有「小蘇州」之稱。",s:["street"]},
   {id:"xunjian",h:"清朝最後的巡檢司",d:"1886 年台灣建省，省城預定建在南邊的大墩。葫蘆墩成為守護省城北邊的要地，清廷在下街設立全台最後一個巡檢司，負責治安與訴訟。",s:["street"]},
@@ -246,10 +272,10 @@ const ERAS=[
   {id:"cake",h:"雪花齋",d:"1900 年創立於中正路。豐原糕餅店密集，有「餅窟」之稱，也被認為是綠豆椪的發源地。",s:["smile","food1"]}]},
  {k:"驛",y:"1895–1945",ys:"1895",t:"鐵道與木材的轉運站",st:[
   {id:"stn",h:"葫蘆墩驛",d:"1905 年車站啟用，名為葫蘆墩驛。1920 年改名豐原，並設豐原郡。",s:["stn","storm"]},
-  {id:"timber",h:"貯木池",d:"八仙山是日治三大官營林場之一，1915 年開始伐木。運下山的原木存放在市區的貯木池，豐原也和嘉義、羅東一樣，因木材而興盛。",s:["forest","moa","moa2"]},
+  {id:"timber",h:"貯木池",d:"八仙山是日治三大官營林場之一，1915 年開始伐木。1923 年啟用長約 2 公里、落差約 1,000 公尺的伏地索道，原木下山從好幾天縮短到不到一個半小時；1941 年產量達到高峰。1927 年營林所台中出張所移駐豐原，運下山的原木存放在市區的貯木池，豐原也和嘉義、羅東一樣，因木材而興盛。",s:["forest","moa","moa2"]},
   {id:"dorm",h:"林業宿舍",d:"1927 年營林所台中出張所移駐豐原，陸續興建檜木造的職員宿舍。",s:["dorm"]},
   {id:"xinyi",h:"信義街",d:"緊鄰陽明街的林業聚落，陽明、民生、東勢三里在日治時期是八仙山木材的集散地，街道隨著木材生意一起熱鬧起來。（在地說法）",s:["sanli"]},
-  {id:"police",h:"頂街派出所",d:"1906 年設立，1936 年在車站前改建成兩層樓鋼筋混凝土廳舍，是少見的二層樓派出所，2002 年登錄為歷史建築，現在是藝文空間。",s:["police"]},
+  {id:"police",h:"頂街派出所",d:"1906 年設立，1936 年在車站前改建成兩層樓鋼筋混凝土廳舍，是少見的二層樓派出所，2002 年登錄為歷史建築。之後曾作為藝文咖啡與展覽空間，2026 年由在地糕餅品牌「旺來八」進駐成鳳梨酥門市，正面仍保留警徽和紅色警示燈。",s:["police","police2","police3"]},
   {id:"shrine",h:"豐原神社",d:"日治時期的豐原神社，戰後原址成為南陽國小。神社的石狛犬與石燈籠，後來移到大街尾福德祠前。",s:["storm2"]},
   {id:"lu",h:"呂樵湖故居",d:"呂樵湖是筱雲山莊呂家後代，在清末與日治時期中部的文教、政治與拓殖上有重要地位。故居是近代折衷主義式樣的洋樓，已登錄為歷史建築。",s:["lu"]},
   {id:"girls",h:"豐原女子公學校",d:"日治時期的女子公學校，原址就是今天的瑞穗國小。校名「瑞穗」和「豐原」同樣出自「豐葦原之瑞穗國」的典故。",s:["girls","ruisui"]}]},
@@ -261,8 +287,8 @@ const ERAS=[
   {id:"warehouse",h:"鐵道倉庫",d:"1969 年興建的豐原車站貨運倉庫，屋架是 15 公尺大跨距鋼桁架，鄰近頂街派出所，已登錄為歷史建築。",s:["wh"]},
   {id:"gaoshang",h:"豐原高商",d:"1935 年由陳章創辦私立豐原商業補習學校，1946 年由台中縣政府接辦，成為縣立初級商職。",s:["fyvs"]}]},
  {k:"工坊",y:"1965–1999",ys:"1965",t:"外銷代工與時代轉折",st:[
-  {id:"bowl",h:"沙拉碗工廠",d:"1965 年起外商在今豐原高中附近設廠，以沙拉碗為主要產品，訂單多來自日本與美國。1975 年後進入代工年代。",s:["lacq"]},
-  {id:"sanmin",h:"三民書局",d:"1978 年利錦祥頂下三民書局。戒嚴時期販售黨外雜誌，成為中部黨外人士的聚集地，常有情治人員上門。",s:["sanmin","youth"]},
+  {id:"bowl",h:"沙拉碗工廠",d:"日治時期，日人山中公設立「山中公美術工藝漆器製作所」，生產繪有原住民、風景與花果圖案的「蓬萊塗」。1965 到 1974 年，以創辦兄弟命名的外商「米爾帕赫羅」在今豐原高中大門斜右側設廠，主要產品是沙拉碗，訂單多來自日本與美國。1975 到 1990 年進入代工年代。",s:["lacq"]},
+  {id:"sanmin",h:"三民書局",d:"1978 年利錦祥、陳姿媚夫妻頂下三民書局，開店後不久就發生美麗島事件。戒嚴時期書局販售黨外雜誌，成為中部黨外人士的聚集地，警備總部人員常上門稽查。被問到壓力，利錦祥的回答是「有壓力就對抗呀」。",s:["sanmin","youth"]},
   {id:"pacific",h:"太平洋百貨",d:"1990 年代初在車站商圈開幕。門口從日本買進的美人魚報時鐘，是很多豐原人的童年回憶。",s:["pacific","rdec"]},
   {id:"culture",h:"葫蘆墩文化中心",d:"前身是台中縣立文化中心，縣市合併後改名，設有演奏廳、展覽室與圖書館分館，是山線最主要的藝文場館。",s:["rdec"]},
   {id:"stump",h:"林業落幕",d:"八仙山林場在 1964 年結束伐木。東勢線失去木材貨源，1991 年停駛。",s:["moa","bw"]},
@@ -285,6 +311,7 @@ const ERAS=[
   {id:"fishgone",h:"魚市場走入歷史",d:"魚市場因未能配合法規轉為公司制，2024 年完成清算；建物經文資審議不具保存價值，原址將招標開發。",s:["fish"]},
   {id:"shepi",h:"社皮新生活圈",d:"社皮里近年有國民運動中心開幕、亞洲大學附設豐原醫院興建中，2026 年也有新的社區型百貨試營運。",s:["shepi"]},
   {id:"trail",h:"南坑・中坑・北坑步道",d:"東側山區的登山步道，區公所把它和公老坪、觀光果園一起列為豐原的觀光景點。",s:["rdec"]},
+  {id:"waterfude",h:"水上土地公",d:"北湳里的角潭福德祠蓋在葫蘆墩圳的水門上，水圳在這裡分成東、西兩條支線，因此被叫作「水上土地公」，廟後有一棵大榕樹。附近西汴幹線旁還有鴛鴦橋福德祠，名字可能就來自水路一分為二。",s:["note","local"]},
   {id:"park",h:"葫蘆墩公園",d:"沿軟埤仔溪的水岸公園，2018 年是台中花博的園區之一。",s:["expo"]},
   {id:"hill",h:"公老坪",d:"東側台地適合種柑橘，參山處形容這裡是全國最大柑橘產地之一，秋冬可以上山採果。",s:["citrus","rdec"]},
   {id:"kama",h:"鎌村",d:"保有多處歷史建物的農村，近年和大學合作，推廣筍、葡萄、玫瑰和螢火蟲等在地體驗。",s:["kama"]},
@@ -368,7 +395,18 @@ const FOOD=[
  {id:"f24",a:5,x:105,y:151,n:"林家早點",i:"🥛",d:"圳寮路的老早餐店，天還沒亮就開門，主打炭火加熱的杏仁茶。",s:["food9"]},
  {id:"f25",a:5,x:84,y:191,n:"老油條豆漿店",i:"🥢",d:"隱藏菜單「炒涼麵」：店家把涼麵拿來炒的實驗，結果比冰著吃更賣座。",s:["mirror18"]},
  {id:"f26",a:5,x:206,y:147,n:"加味香雞排",i:"🍗",d:"水源路上的炸物攤，被在地人稱為豐原最好吃的雞翅。",s:["mirror18"]},
- {id:"f27",a:5,x:81,y:165,n:"蔥油餅發財車",i:"🫓",d:"豐西街口下午 2 點開賣，手工現擀現煎，常常提早賣完。",s:["food3"]}
+ {id:"f27",a:5,x:81,y:165,n:"蔥油餅發財車",i:"🫓",d:"豐西街口下午 2 點開賣，手工現擀現煎，常常提早賣完。",s:["food3"]},
+ {id:"f28",a:5,x:124,y:146,n:"源美辣椒醬",i:"🌶️",loc:1,d:"外地人說台中辣椒醬就想到東泉，豐原人吃的多半是源美。源美是豐原起家的辣椒醬，比東泉甜、辣度低，帶一點中藥香；東泉顏色較深，偏鹹辣。媒體報導豐原、潭子、清水一帶多吃源美，原台中市區和屯區多吃東泉。豐原人吃炒麵、蘿蔔糕、米糕都要淋一圈，端午吃肉粽更少不了。紅色瓶蓋裡還有一層鐵蓋，要用開罐器打開；傳統雜貨店買得到。",s:["local","yuanmei1","yuanmei2","yuanmei3"]},
+ {id:"f29",a:5,x:122,y:139,n:"豐中炒麵蘿蔔糕",i:"🍝",d:"三豐路一段的早餐老店，媒體說開了 50 年以上，門口只掛一條紅布條。豐原人的早餐常是一盤炒麵加一塊煎蘿蔔糕，再配一碗綜合湯，料有豬血、膈間肉、油豆腐和大腸；炒麵上擠一圈辣中帶甜的辣椒醬才算完整。週一公休，中午過後就收攤。",s:["fengzhong","fengzhong2"]},
+ {id:"f30",a:5,x:98,y:118,n:"味榮味噌",i:"🫙",d:"很多台中人不知道這個味噌品牌在豐原。前身是 1953 年許火烈創立的大榮食品工廠，已傳到第三代，產品賣到約 20 個國家，主打有機味噌和有機黑豆醬油。2010 年在西勢路成立台灣味噌釀造文化館，是全台第一座以味噌為主題的觀光工廠。",s:["weirong","weirong2"]},
+ {id:"f31",a:5,x:112,y:145,n:"阮豆漿大王",i:"🥛",d:"傳了三代、超過百年的豆漿店。第一代阮水木早年在光華戲院附近挑擔擺攤，賣豆漿、米漿、油條和綠豆糕；第三代阮豐吉在圓環北路現址經營了三十多年。豆漿和杏仁茶每天自己磨，凌晨三點多就開始備料，常有長輩特地回來喝杏仁茶。清晨 4 點半開到 11 點，週末公休。",s:["ruan"]},
+ {id:"f32",a:5,x:101,y:147,n:"瑞穗炸雞",i:"🍗",d:"瑞穗國小附近、西安街上的炸雞攤，在地人吃了二十多年。下午 3 點開炸，還沒開攤就排隊，常常提早賣完；招牌是厚實的香雞排，菜單只有雞排、雞翅、雞塊、魷魚、甜不辣等幾樣。週日公休。",s:["ruisui1","ruisui2"]},
+ {id:"f33",a:5,x:110,y:200,n:"葫蘆墩夜市",i:"🏮",d:"豐原大道旁、緊鄰豐圳公園的流動夜市，只在每週三、五、六開。和天天營業、藏在廟旁巷弄的廟東夜市不同，這裡是週間晚上豐原人逛夜市的另一個選擇。",s:["huludun"]},
+ {id:"f34",a:5,x:178,y:186,n:"豐東國中旁夜市",i:"🏮",loc:1,d:"豐東國中旁邊的夜市，是東邊住宅區居民就近逛的在地夜市。",s:["local"]},
+ {id:"f35",a:5,x:141,y:166,n:"鐵路旁夜市",i:"🏮",loc:1,d:"靠近鐵路的在地夜市，在地人晚上就近逛、買宵夜的地方。",s:["local"]},
+ {id:"f36",a:5,x:129,y:189,n:"陽明大樓旁夜市",i:"🏮",loc:1,d:"陽明大樓旁邊的在地夜市。陽明大樓原本是存放八仙山原木的貯木池，現在周邊晚上也有攤商聺集。",s:["local","moa2"]},
+ {id:"f37",a:5,x:146,y:174,n:"王家潤餅",i:"🌯",d:"傳到第三代、大約 60 年的潤餅老店。創辦人在八二三砲戰後從金門來台，靠潤餅重現想念的家鄉味；同一批金門居民中，也有人被安置在墩腳。最早在第一市場擺攤，後來搬到圓環東路舊果菜市場旁，潤餅和潤餅皮都賣，份量大。",s:["wangrb"]},
+ {id:"f38",a:5,x:96,y:160,n:"富春小籠包",i:"🥟",d:"沒有正式店名的餐車，大家叫它「富春小籠包」，擺了大約 35 年。第一代陳基成是后里人，學做麵包後轉學小籠包，輾轉在豐原幾所學校附近擺攤，後來固定在富春國小側門和後門；現在由第二代接手。小籠包和蒸餃現包現蒸，早上在富春國小、下午在三豐市場。",s:["fuchun"]}
 ];
 const STATS=[
  {n:"約 16.5 萬",l:"人口，台中 29 區中第 6 多",s:["popu2"]},
@@ -388,6 +426,7 @@ const STATS=[
 ];
 const GEO=[
  {h:"在台中的位置",d:"位於台中盆地北端、大甲溪沖積扇上，西邊是大肚台地，東邊接著山城。",s:["storm2"]},
+ {h:"三條溪，一條圳",d:"北邊是大甲溪，幹流長 124 公里，從雪山、南湖大山流到清水出海，豐原是沿途的行政區之一；墩腳的土墩傳說是大甲溪漂砂堆出來的，葫蘆墩圳也從這裡引水。市區北側的軟埤仔溪穿過葫蘆墩公園，2018 年花博前整治了三環路到豐原大道約 1.8 公里，上游還做了約 1 公頃的滯洪湖；2024 年又完成一期水環境改善工程。往南，旱溪排水的集水區從豐原延伸到潭子、大里、烏日。地圖上的藍線是大致走向。",s:["dajia","ruanpi","ruanpi2","hanxi","hakka"]},
  {h:"清代的戰略位置",d:"台灣建省時，省城預定建在南邊的大墩，葫蘆墩扼守省城北邊門戶，因此設了巡檢司。",s:["street"]},
  {h:"山城的門戶",d:"往東勢、石岡、新社、和平、谷關、梨山的人與貨，多半經過豐原。縱貫線山線、國道 1 號、國道 4 號在這裡交會，轉運中心也定位為山城的交通樞紐。",s:["transit","nat4"]},
  {h:"斷層上的城市",d:"車籠埔斷層通過豐原東側，921 讓這個位置的代價被看見。東勢豐原生活圈快速道路也被當作山城的「生命救援線」來規劃。",s:["ncu","dongfeng"]}
@@ -542,7 +581,16 @@ function decorate(e){const vis=LM.filter(l=>l.e<=e&&stateOf(l,e).type!=="none"&&
 /* lines: rail, dongshi, canal, fault */
 function tubeAlong(pts,r,c,lift,old){const v=pts.map(([x,y])=>{const [a,b]=W(x,y);return new THREE.Vector3(a,0,b)});const curve=new THREE.CatmullRomCurve3(v);const P=curve.getPoints(80);
  P.forEach(p=>{const T=nearestTile(p.x/S+180,p.z/S+170);p.y=T.goal+.1+(lift||0)});const m=new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(P),160,r,6,false),matFor(c,old));m.castShadow=true;LINES.add(m);return m}
-function drawLines(e){clearGroup(LINES);const S0=LM.find(l=>l.st==="stn");const sp=[S0.px||S0.x,S0.py||S0.y];
+const RIV={dajia:[[302,112],[264,42],[200,36],[130,36],[96,48],[72,118],[52,166]],ruanpi:[[170,112],[146,119],[124,124],[100,128],[72,140]],han:[[178,160],[171,200],[165,245],[160,292]]};
+const RIVLBL=[{n:'大甲溪',x:170,y:38},{n:'軟埤仔溪',x:150,y:116},{n:'旱溪',x:170,y:232}];
+function ribbonAlong(pts,w,c,op,lift,ord){const v=pts.map(([x,y])=>{const [a,b]=W(x,y);return new THREE.Vector3(a,0,b)});const curve=new THREE.CatmullRomCurve3(v,false,'centripetal');const N=220,P=curve.getSpacedPoints(N);
+ const pos=[],idx=[];P.forEach((p,i)=>{const q=P[Math.min(N,i+1)],o=P[Math.max(0,i-1)];let tx=q.x-o.x,tz=q.z-o.z;const L=Math.hypot(tx,tz)||1;tx/=L;tz/=L;
+  const ww=w*(0.85+0.15*Math.sin(i*.35));const T=nearestTile(p.x/S+180,p.z/S+170);const y=T.goal+.02+(lift||0);
+  pos.push(p.x-tz*ww/2,y,p.z+tx*ww/2,p.x+tz*ww/2,y,p.z-tx*ww/2);if(i<N)idx.push(i*2,i*2+1,i*2+2,i*2+1,i*2+3,i*2+2)});
+ const g=new THREE.BufferGeometry();g.setAttribute('position',new THREE.Float32BufferAttribute(pos,3));g.setIndex(idx);g.computeVertexNormals();
+ const m=new THREE.Mesh(g,new THREE.MeshLambertMaterial({color:c,transparent:op<1,opacity:op,side:THREE.DoubleSide,depthWrite:op>=1,polygonOffset:true,polygonOffsetFactor:-2-(ord||0),polygonOffsetUnits:-2-(ord||0)}));m.receiveShadow=true;m.renderOrder=1+(ord||0);LINES.add(m);return m}
+function river(pts,w){ribbonAlong(pts,w*1.6,0xE6EFD9,1,0,0);ribbonAlong(pts,w,0x5DAFD4,1,.004,1);ribbonAlong(pts,w*.3,0xA8DAEC,.8,.008,2)}
+function drawLines(e){clearGroup(LINES);river(RIV.dajia,.9);river(RIV.ruanpi,.42);river(RIV.han,.42);const S0=LM.find(l=>l.st==="stn");const sp=[S0.px||S0.x,S0.py||S0.y];
  if(e>=1){const A=LM.find(l=>l.st==="swap"),R0=LM.find(l=>l.st==="rice");tubeAlong([[A.px,A.py],[150,90],[105,140],[70,180],[HEX[R0.h].x,HEX[R0.h].y]],.07,0x4E9FB5,0,e!==1)}
  if(e>=2){const pts=[[126,36],[130,90],sp,[142,220],[150,292]];if(e>=6){tubeAlong(pts,.11,0xE3A33B,.7);pts.forEach((p,i)=>{if(i%1===0){}});}else tubeAlong(pts,.09,0x4B575B,0,false)}
  if(e>=3){const L0=LM.find(l=>l.st==="dongshi");const pts=[sp,[170,140],[L0.px||205,L0.py||122],[260,95],[312,72]];
@@ -571,6 +619,7 @@ function makeLabels(){labelsEl.innerHTML='';LABELS=[];
  if(!FOODON)PLACED.filter(p=>p.s.cur&&p.s.n&&!p.l.nolabel&&p.s.inEra).forEach(p=>{const el=document.createElement('div');el.className='lbl'+(SEL&&SEL.l===p.l?' sel':'');el.textContent=p.s.n;el.setAttribute('role','button');el.tabIndex=0;labelsEl.appendChild(el);const L={el,obj:p.g,y:2.6,pri:1,P:p};L.y=2.1;LABELS.push(L);const go=()=>{const r=board.getBoundingClientRect(),b=el.getBoundingClientRect();tapLandmark(p,b.left-r.left+b.width/2,b.top-r.top)};el.onclick=go;el.onkeydown=ev=>{if(ev.key==='Enter'){ev.preventDefault();go()}}});
  if(FOODON)FOODOBJ.forEach(o=>{const el=document.createElement('div');el.className='lbl food';el.textContent=o.f.n;el.setAttribute('role','button');el.tabIndex=0;labelsEl.appendChild(el);LABELS.push({el,obj:o.g,y:2.15,pri:2,F:o});el.onclick=()=>tapFood(o)});
  if(ERA===0){const el=document.createElement('div');el.className='lbl cap';el.textContent='巴宰族生活的土地';labelsEl.appendChild(el);const o=new THREE.Object3D();o.position.set(0,0,3);scene.add(o);LABELS.push({el,obj:o,y:1.2,pri:0})}
+ if(!FOODON)RIVLBL.forEach(r=>{if(!r.o){r.o=new THREE.Object3D();const [a,b]=W(r.x,r.y);r.o.position.set(a,0,b);scene.add(r.o)}const el=document.createElement('div');el.className='lbl cap riv';el.textContent=r.n;labelsEl.appendChild(el);LABELS.push({el,obj:r.o,y:.9,pri:0})});
  LABELS.forEach(L=>{L.w=L.el.offsetWidth;L.h=L.el.offsetHeight})}
 const tv=new THREE.Vector3();
 function updateLabels(){const bw=board.clientWidth,bh=board.clientHeight;const placed=[];
@@ -619,7 +668,9 @@ function renderStories(){const C=cardItems();document.getElementById('yr').textC
  storiesEl.innerHTML=C.items.map(s=>`<article class="story" id="s-${s.id}">${s.ic}<h3>${s.h}</h3><p>${s.d}</p></article>`).join('');
  dotsEl.innerHTML=C.items.length>1?`<button id="pv" aria-label="上一則">‹</button><span id="pc"></span><button id="nx" aria-label="下一則">›</button>`:'';storiesEl.scrollLeft=0;CUR=0;LASTID=null;updPager();setTimeout(fillIcons,0);
  if(C.items.length>1){document.getElementById('pv').onclick=()=>goCard(CUR-1,true);document.getElementById('nx').onclick=()=>goCard(CUR+1,true)}}
-function updPager(){const cards=storiesEl.querySelectorAll('.story');const n=cards.length;if(cards[CUR])storiesEl.style.height=cards[CUR].offsetHeight+'px';const pc=document.getElementById('pc');if(!pc)return;pc.textContent=`${CUR+1} / ${n}`;document.getElementById('pv').disabled=CUR<=0;document.getElementById('nx').disabled=CUR>=n-1}
+function markMore(){storiesEl.querySelectorAll('.story p').forEach(p=>p.classList.toggle('more',p.scrollHeight-p.clientHeight-p.scrollTop>4))}
+document.addEventListener('scroll',e=>{if(e.target.matches&&e.target.matches('.story p'))markMore()},true);
+function updPager(){markMore();const cards=storiesEl.querySelectorAll('.story');const n=cards.length;if(cards[CUR])storiesEl.style.height=cards[CUR].offsetHeight+'px';const pc=document.getElementById('pc');if(!pc)return;pc.textContent=`${CUR+1} / ${n}`;document.getElementById('pv').disabled=CUR<=0;document.getElementById('nx').disabled=CUR>=n-1}
 function markCard(id){storiesEl.querySelectorAll('.story').forEach(x=>x.classList.toggle('hi',x.id==='s-'+id))}
 function goCard(i,fly){const cards=storiesEl.querySelectorAll('.story');if(i<0||i>=cards.length)return;CUR=i;const c=cards[i];const id=c.id.slice(2);if(!fly)SILENT=true;LASTID=id;markCard(id);storiesEl.scrollTo({left:c.offsetLeft-16,behavior:RM?'auto':'smooth'});updPager();if(fly)locate(id,true)}
 function onSettle(){const cards=[...storiesEl.querySelectorAll('.story')];if(!cards.length)return;const id=cards[CUR].id.slice(2);if(SILENT){SILENT=false;return}if(id!==LASTID){LASTID=id;markCard(id);locate(id,true)}}
