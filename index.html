@@ -4,6 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>豐原時光機</title>
+<script>
+(function(){var h=location.hostname;if(!/netlify\.app$/.test(h))return;var s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id=G-0EYX3FPSJ7';document.head.appendChild(s);
+window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config','G-0EYX3FPSJ7')})();
+function gaEv(n,p){try{window.gtag&&gtag('event',n,p||{})}catch(e){}}
+</script>
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
 <link rel="preload" as="script" href="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -670,7 +675,7 @@ function renderStories(){const C=cardItems();document.getElementById('yr').textC
  if(C.items.length>1){document.getElementById('pv').onclick=()=>goCard(CUR-1,true);document.getElementById('nx').onclick=()=>goCard(CUR+1,true)}}
 function markMore(){storiesEl.querySelectorAll('.story p').forEach(p=>p.classList.toggle('more',p.scrollHeight-p.clientHeight-p.scrollTop>4))}
 document.addEventListener('scroll',e=>{if(e.target.matches&&e.target.matches('.story p'))markMore()},true);
-function updPager(){markMore();const cards=storiesEl.querySelectorAll('.story');const n=cards.length;if(cards[CUR])storiesEl.style.height=cards[CUR].offsetHeight+'px';const pc=document.getElementById('pc');if(!pc)return;pc.textContent=`${CUR+1} / ${n}`;document.getElementById('pv').disabled=CUR<=0;document.getElementById('nx').disabled=CUR>=n-1}
+let GACARD=null;function updPager(){markMore();{const c=storiesEl.querySelectorAll('.story')[CUR];if(c&&c.id!==GACARD){GACARD=c.id;const h=c.querySelector('h3');gaEv('view_card',{card_id:c.id.slice(2),card_title:h?h.childNodes[0].textContent:'',mode:FOODON?'food':'history'})}}const cards=storiesEl.querySelectorAll('.story');const n=cards.length;if(cards[CUR])storiesEl.style.height=cards[CUR].offsetHeight+'px';const pc=document.getElementById('pc');if(!pc)return;pc.textContent=`${CUR+1} / ${n}`;document.getElementById('pv').disabled=CUR<=0;document.getElementById('nx').disabled=CUR>=n-1}
 function markCard(id){storiesEl.querySelectorAll('.story').forEach(x=>x.classList.toggle('hi',x.id==='s-'+id))}
 function goCard(i,fly){const cards=storiesEl.querySelectorAll('.story');if(i<0||i>=cards.length)return;CUR=i;const c=cards[i];const id=c.id.slice(2);if(!fly)SILENT=true;LASTID=id;markCard(id);storiesEl.scrollTo({left:c.offsetLeft-16,behavior:RM?'auto':'smooth'});updPager();if(fly)locate(id,true)}
 function onSettle(){const cards=[...storiesEl.querySelectorAll('.story')];if(!cards.length)return;const id=cards[CUR].id.slice(2);if(SILENT){SILENT=false;return}if(id!==LASTID){LASTID=id;markCard(id);locate(id,true)}}
@@ -706,7 +711,7 @@ canvas.addEventListener('pointerup',e=>{canvas.style.cursor='grab';if(!down)retu
 controls.addEventListener('start',()=>{hidePop()});
 /* era switching */
 let shake=0;
-function setEra(i){wake();const prev=ERA;ERA=i;hidePop();SEL=null;if(!FOODON)nav.querySelectorAll('button').forEach((x,j)=>x.setAttribute('aria-pressed',j===i));
+function setEra(i){wake();if(!FOODON&&i!==ERA)gaEv('select_era',{era_name:ERAS[i]&&ERAS[i].k});const prev=ERA;ERA=i;hidePop();SEL=null;if(!FOODON)nav.querySelectorAll('button').forEach((x,j)=>x.setAttribute('aria-pressed',j===i));
  TILES.forEach(T=>{T.goal=tileH(T,i)});if(prev<5&&i>=5&&!RM)shake=1.2;
  placeLandmarks(i);decorate(i);drawLines(i);placeFood();renderStories();makeLabels();
  camFocus();const first=cardItems().items.find(x=>!x.p);if(first){LASTID=first.id;markCard(first.id);setTimeout(()=>locate(first.id,false),60)}}
@@ -716,8 +721,8 @@ let AREA=0,PREVERA=0;
 const mH=document.getElementById('mH'),mF=document.getElementById('mF');
 function renderNav(){nav.innerHTML='';if(FOODON){AREAS.forEach((A,i)=>{const b=document.createElement('button');const n=FOOD.filter(f=>f.a===i).length;b.innerHTML=`${A.k}<small>${n} 家</small>`;b.setAttribute('aria-pressed',i===AREA);b.setAttribute('aria-label',`${A.n}，${n} 家`);b.onclick=()=>setArea(i);nav.appendChild(b)})}
  else ERAS.forEach((e,i)=>{const b=document.createElement('button');b.innerHTML=`${e.k}<small>${e.ys}</small>`;b.setAttribute('aria-pressed',i===ERA);b.setAttribute('aria-label',`${e.k}，${e.y}`);b.onclick=()=>setEra(i);nav.appendChild(b)})}
-function setArea(i){wake();AREA=i;hidePop();clearSel();nav.querySelectorAll('button').forEach((x,j)=>x.setAttribute('aria-pressed',j===i));placeFood();renderStories();makeLabels();LASTID='area';markCard('area');setTimeout(frameArea,40)}
-function setMode(m){const food=m==='food';if(food===FOODON)return;FOODON=food;mH.setAttribute('aria-selected',!food);mF.setAttribute('aria-selected',food);hidePop();clearSel();
+function setArea(i){wake();if(i!==AREA)gaEv('select_area',{area_name:AREAS[i]&&AREAS[i].n});AREA=i;hidePop();clearSel();nav.querySelectorAll('button').forEach((x,j)=>x.setAttribute('aria-pressed',j===i));placeFood();renderStories();makeLabels();LASTID='area';markCard('area');setTimeout(frameArea,40)}
+function setMode(m){const food=m==='food';if(food===FOODON)return;gaEv('switch_mode',{mode:food?'food':'history'});FOODON=food;mH.setAttribute('aria-selected',!food);mF.setAttribute('aria-selected',food);hidePop();clearSel();
  if(food){PREVERA=ERA;if(ERA!==6){setEra(6)}renderNav();setArea(AREA)}else{renderNav();setEra(PREVERA)}}
 mH.onclick=()=>setMode('history');mF.onclick=()=>setMode('food');
 /* panels */
@@ -728,7 +733,7 @@ document.getElementById('srclist').innerHTML=ERAS.map(e=>`<h3>${e.k}｜${e.y}</h
 document.getElementById('stats').innerHTML=STATS.map(s=>`<div class="stat"><b>${s.n}</b><span>${s.l}</span></div>`).join('');
 document.getElementById('geo').innerHTML=GEO.map(g=>`<div><b>${g.h}</b><span>${g.d}</span></div>`).join('');
 function panelWire(p,o,c){const P=document.getElementById(p),O=document.getElementById(o),C=document.getElementById(c);O.onclick=()=>{P.classList.add('open');C.focus()};const sh=()=>{P.classList.remove('open');O.focus()};C.onclick=sh;P.addEventListener('click',e=>{if(e.target===P)sh()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&P.classList.contains('open'))sh()})}
-panelWire('panel','openSrc','closeSrc');panelWire('wherep','openWhere','closeWhere');document.getElementById('goExplore').onclick=()=>{document.getElementById('wherep').classList.remove('open');maybeTour()};document.getElementById('closeWhere').addEventListener('click',()=>maybeTour());panelWire('statp','strip','closeStat');
+panelWire('panel','openSrc','closeSrc');document.getElementById('openSrc').addEventListener('click',()=>gaEv('open_panel',{panel:'sources'}));document.getElementById('openWhere').addEventListener('click',()=>gaEv('open_panel',{panel:'where'}));panelWire('wherep','openWhere','closeWhere');document.getElementById('goExplore').onclick=()=>{document.getElementById('wherep').classList.remove('open');maybeTour()};document.getElementById('closeWhere').addEventListener('click',()=>maybeTour());panelWire('statp','strip','closeStat');
 let si=0;const sv=document.getElementById('stripv');const stripTxt=s=>`${s.n}・${s.l.split('，')[0].split('（')[0]}`;sv.textContent=stripTxt(STATS[0]);
 if(!RM)setInterval(()=>{si=(si+1)%STATS.length;sv.style.opacity=0;setTimeout(()=>{sv.textContent=stripTxt(STATS[si]);sv.style.opacity=1},350)},3200);
 /* tour */
@@ -746,7 +751,7 @@ function tourShow(){const s=TOUR[TI];const el=document.querySelector(s.sel);if(!
  document.getElementById('tNext').textContent=TI===TOUR.length-1?'開始探索':'下一步';
  const th=tTip.offsetHeight||140,vh=innerHeight;let top=r.bottom+16;if(top+th>vh-12)top=r.top-th-16;if(top<12)top=Math.max(12,Math.min(vh-th-12,r.top+r.height/2-th/2));tTip.style.top=top+'px';
  document.getElementById('tNext').focus()}
-function tourStart(){TI=0;tour.classList.add('open');tourShow()}
+function tourStart(){gaEv('open_tour');TI=0;tour.classList.add('open');tourShow()}
 function tourEnd(){tour.classList.remove('open');try{localStorage.setItem('fy-seen-tour','1')}catch(e){}}
 document.getElementById('tNext').onclick=()=>{if(TI<TOUR.length-1){TI++;tourShow()}else tourEnd()};
 document.getElementById('tSkip').onclick=tourEnd;
